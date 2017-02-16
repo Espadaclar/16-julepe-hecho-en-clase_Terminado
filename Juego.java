@@ -13,7 +13,6 @@ public class Juego
     private Mazo mazo;
     private int paloQuePinta;
 
-
     /**
      * Constructor de la clase Juego
      *
@@ -55,11 +54,10 @@ public class Juego
             System.out.println(jugadores[i].getNombre());
         }
         System.out.println();
-        
+
         jugar();
     }
-    
-    
+
     /**
      * M√©todo que reparte 5 cartas a cada uno de los jugadores presentes en
      * la partida y elige un palo para que pinte.
@@ -96,8 +94,6 @@ public class Juego
 
         return paloQuePinta;           
     }
-   
-
 
     /**
      * Devuelve la posici√≥n del jugador cuyo nombre se especifica como
@@ -110,14 +106,13 @@ public class Juego
     {
         int posicionJugador = -1;
         for(int i = 0; i < jugadores.length; i ++){
-            if(jugadores[i].equals(nombre)){
+            if(jugadores[i].getNombre().equals(nombre)){
                 posicionJugador = i;
             }
         }
         return posicionJugador;
     }
-    
-        
+
     /**
      * Desarrolla una partida de julepe teniendo en cuenta que el mazo y los
      * jugadores ya han sido creados. 
@@ -143,16 +138,66 @@ public class Juego
      */
     private void jugar()
     {
+        // 1 Repartir las cartas a los jugadores.
+        repartir();
+        int cont = 0; 
+        String nameJugadorGanadorDeLaBaza = "";
+        String nameJugadorHumano = jugadores[0].getNombre();
+        int bazasGanadasDelHumano = 0;
+        while(cont < 5){
+            // 2 Solicitar por teclado la carta que quiere lanzar el jugador humano.
+            if(cont == 0){
+                System.out.println(" ============== Cartas de.- " +nameJugadorHumano);
+            }
+            System.out.println("-------------------------------------------------------------------------------------");
+            jugadores[0].verCartasJugador(); // antes muestro en pantalla las cartas que tiene.
 
-        
-    }    
+            // 2 Solicitar por teclado la carta que quiere lanzar el jugador humano.
+            Scanner entrada = new Scanner(System.in);
+            System.out.println("---------------------- " +nameJugadorHumano+ ",Teclee el nombre de la carta que juega.");
+            String nameCarta = entrada.nextLine();
+            System.out.println("");
+            System.out.println("************************************ CARTAS DE LA BAZA N∫.- " +(cont +1));
+
+            // 4 Darle la baza al jugador que la ha ganado.
+            Baza bazaGanada = new Baza(jugadores.length, paloQuePinta);
+
+            //jugadores[0].tirarCarta(nameCarta);// el jugador tira la carta que escribe por teclado.
+            //---- almaceno la carta y el nombre del jugador en dos VL y las aÒado a la baza.
+            Carta carT = jugadores[0].tirarCarta(nameCarta);
+            String nameJugador = jugadores[0].getNombre();
+
+            bazaGanada.addCarta(carT, nameJugador);
+            // 3 Lanzar una carta por cada jugador no humano.
+            for(int i = 1; i < jugadores.length; i ++){
+                //---- almaceno la carta y el nombre del jugador en dos VL y las aÒado a la baza.
+                Carta carTnoH = jugadores[i].tirarCartaAleatoria();    
+                String jugadorNoHumano = jugadores[i].getNombre();
+                bazaGanada.addCarta(carTnoH, jugadorNoHumano);
+            }
+            //System.out.println("");
+            // 4 Darle la baza al jugador que la ha ganado.
+            jugadores[encontrarPosicionJugadorPorNombre(bazaGanada.nombreJugadorQueVaGanandoLaBaza())].addBaza(bazaGanada);
+            //jugadores[encontrarPosicionJugadorPorNombre(bazaGanada.nombreJugadorQueVaGanandoLaBaza())].addBaza(bazaGanada);
+            // 5. Informar de qu√© jugador ha ganado la baza.
+            nameJugadorGanadorDeLaBaza = jugadores[encontrarPosicionJugadorPorNombre(bazaGanada.nombreJugadorQueVaGanandoLaBaza())].getNombre();
+            System.out.println("*************************************** BAZA GANADA POR.- " +nameJugadorGanadorDeLaBaza);
+            System.out.println("");
+
+            // 7. Informar de cu√°ntas bazas ha ganado el jugador humano.
+            bazasGanadasDelHumano = jugadores[0].getNumeroBazasGanadas();
+
+            cont ++;
+        }    
+        System.out.println( nameJugadorHumano+ " tiene.- " +bazasGanadasDelHumano+ " bazas ganadas. ");
+        if(bazasGanadasDelHumano >= 2){
+            System.out.println(nameJugadorHumano+ " no ha sido julepe por tener " +bazasGanadasDelHumano+ " bazas ganadas. ");
+        }
+        else{
+            System.out.println(nameJugadorHumano+ " si ha sido julepe por tener " +bazasGanadasDelHumano+ " bazas ganadas. ");
+        }
+    }
 }
-
-
-
-
-
-
 
 
 
