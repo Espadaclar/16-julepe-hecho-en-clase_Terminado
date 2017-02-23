@@ -15,11 +15,8 @@ public class Juego
     private static final int NUMERO_DE_RONDAS = 5;
 
     private Palo paloPrimeraCartaDeLaBaza;// palo de la carta que 1º se juega en cada baza.
-    //private Carta carT; // carta que tira el jugador en jugar2()********************
-
     /**
      * Constructor de la clase Juego
-     *
      * @param numeroJugadores El número de jugadores que van a jugar
      * @param nombreJugadorHumano El nombre del jugador humano
      */
@@ -50,31 +47,24 @@ public class Juego
 
             Jugador jugador = new Jugador(nombreAleatorioElegido);
             jugadores[i] = jugador;
-
         }
-
         System.out.println("Tus rivales son: ");
         for (int i = 1; i < jugadores.length; i++) {
             System.out.println(jugadores[i].getNombre());
         }
         System.out.println();
-
-        jugar2();
-
+        jugar();
         paloPrimeraCartaDeLaBaza = null;// palo de la carta que 1º se juega.***************************
-        // carT = null;// carta que tira el jugador en jugar2()****************************
     }
 
     /**
      * Método que reparte 5 cartas a cada uno de los jugadores presentes en
      * la partida y elige un palo para que pinte.
-     *
      * @return El palo que pinta tras repartir
      */
     private Palo repartir() 
     {
         mazo.barajar();
-
         Carta nuevaCarta = null;
         for (int cartaARepartir = 0; cartaARepartir < 5; cartaARepartir++) {            
             for (int jugadorActual = 0; jugadorActual < jugadores.length; jugadorActual++) {
@@ -98,14 +88,12 @@ public class Juego
             System.out.println("Pintan bastos");
             break;
         }
-
         return paloQuePinta;           
     }
 
     /**
      * Devuelve la posición del jugador cuyo nombre se especifica como
      * parámetro.
-     *
      * @param nombre El nombre del jugador a buscar
      * @return La posición del jugador buscado o -1 en caso de no hallarlo.
      */
@@ -148,7 +136,7 @@ public class Juego
      *
      */
     
-    private void jugar2()
+    private void jugar()
     {
         // 1 Repartir las cartas a los jugadores.
         repartir();
@@ -164,7 +152,6 @@ public class Juego
         }
         int cont = 0;
         while(cont < NUMERO_DE_RONDAS){
-
             System.out.println("");
             System.out.println("\n ============== Cartas de.- " +nameJugadorHumano);
 
@@ -191,7 +178,6 @@ public class Juego
             }
 
             System.out.println("************************************ CARTAS DE LA BAZA Nº.- " +(cont +1));
-            //********
             // 4 Darle la baza al jugador que la ha ganado.
             Baza bazaGanada = new Baza(jugadores.length, paloQuePinta);
             bazaGanada.addCarta(carT, nameJugadorHumano);

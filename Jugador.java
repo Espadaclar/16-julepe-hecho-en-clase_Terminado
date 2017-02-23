@@ -118,27 +118,18 @@ public class Jugador
         return cartaTirada;
     }
 
-    //////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-
     /**
-     * MÃ©todo que tira una carta "inteligentemente" ************************************************
-     * 
-     * *********************************************************************************************************************
+     * MÃ©todo que tira una carta "inteligentemente" 
      */
 
     public Carta tirarCartaInteligentemente(Palo paloPrimeraCartaDeLaBaza, Carta cartaQueVaGanando, Palo paloQuePinta)                                    
     {
         // ---- EL PARÁMETRO cartaQueVaGanando, ES LA 1º CARTA EN JUGARSE Y LA 1º QUE VA GANANDO.
-        //Carta cartaQueVamosAJugar = null;//ES LA CARTA QUE SE TIRA.
+        
         int iteracionesTotales = cartasQueTieneEnLaMano.length;
-        //-------------------BUCLE PARA RECORRER TODAS LAS CARTAS QUE TIENE EL JUGADOR----------------
-
         boolean encontrada = false;//--- para, el bucle while si encuentra la carta.
-        int cuentaCartas = 0;//--cuenta las cartas del jugadorNoH
-
-        //------ RECORRO LAS CARTAS QUE TIENE EL JUGADOR noHumano Y TIRO LA úlima QUE LA SUPERE EN VALOR---------
+        int cuentaCartas = 0; // --- contador para el bucle while
+         // 1º ---- SI EL noHumano TIENE CARTAS PARA ASISTIR AL PALO DE LA 1º CARTA JUGADA POR EL humano, Y LA GANA¡¡¡¡¡.
         while(cuentaCartas <  iteracionesTotales && !encontrada){
             for(Carta cartaG: cartasQueTieneEnLaMano){
                 if(cartaG != null && cartaG.getPalo() == paloPrimeraCartaDeLaBaza && cartaG.getValor()
@@ -158,7 +149,7 @@ public class Jugador
                     }
                 }
             }
-
+            
             // 3º--------- SI EL noHumano ¡¡¡NO TIENE CARTAS PARA ASISTIR AL PALO DE LA 1º CARTA, Y ÉSTA NO ES TRIUNFO.(y el nHum tiene triunfo)
             if(!encontrada){
                 for(Carta cartaG: cartasQueTieneEnLaMano){
@@ -169,20 +160,18 @@ public class Jugador
                         }  
                     }
                 }
-
-                // 4º---------- SI EL noHumano ¡¡¡NO TIENE CARTAS PARA ASISTIR AL PALO DE LA 1º CARTA Y ÉSTA ES TRIUNFO. 
-                if(!encontrada){
-                    for(Carta cartaG: cartasQueTieneEnLaMano){
-                        if(cartaG != null &&  cartaG.getPalo() != paloPrimeraCartaDeLaBaza && paloPrimeraCartaDeLaBaza == paloQuePinta){
-
-                            if(cartaG.getPalo() !=  paloQuePinta){
-                                cartaQueVamosAJugar = cartaG;
-                                encontrada = true;                              
-                            }
-
+            }
+            
+            // 4º---------- SI EL noHumano ¡¡¡NO TIENE CARTAS PARA ASISTIR AL PALO DE LA 1º CARTA Y ÉSTA ES TRIUNFO. 
+            if(!encontrada){
+                for(Carta cartaG: cartasQueTieneEnLaMano){
+                    if(cartaG != null &&  cartaG.getPalo() != paloPrimeraCartaDeLaBaza && paloPrimeraCartaDeLaBaza == paloQuePinta){
+                        if(cartaG.getPalo() !=  paloQuePinta){
+                            cartaQueVamosAJugar = cartaG;
+                            encontrada = true;                              
                         }
-                    }  
-                }
+                    }
+                }  
             }
             cuentaCartas ++;
         }

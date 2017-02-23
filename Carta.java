@@ -8,7 +8,7 @@ public class Carta
 {
     // Valor de la carta; de 1 a 7 y de 10 a 12
     private int valor;
-    // Valor del palo: 0 es oros, 1 es copas, 2 es espadas y 3 es bastos
+    // toma nuevo valor utilizando la clase Palo
     private Palo palo;
 
     /**
@@ -21,7 +21,6 @@ public class Carta
         this.palo = palo;
 
     }
-
     
     public int getValor()
     {
@@ -38,22 +37,6 @@ public class Carta
         String textoADevolver = "";
 
         String textoValor = Integer.toString(valor);
-        //         String textoPalo = "";
-        // 
-        //         switch (palo) {
-        //             case 0:
-        //             textoPalo = "oros";
-        //             break;
-        //             case 1:
-        //             textoPalo = "copas";
-        //             break;
-        //             case 2:
-        //             textoPalo = "espadas";
-        //             break;
-        //             case 3:
-        //             textoPalo = "bastos";
-        //             break;
-        //}
 
         switch (valor) {
             case 1:
@@ -71,7 +54,6 @@ public class Carta
         }
 
         textoADevolver = textoValor + " de " + palo.toString().toLowerCase();
-
         return textoADevolver;
     }
 

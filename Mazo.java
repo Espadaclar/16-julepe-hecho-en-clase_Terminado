@@ -8,17 +8,14 @@ import java.util.Random;
  */
 public class Mazo
 {
-
     private ArrayList<Carta> mazo;
-
     /**
      * Constructor for objects of class Mazo
      */
     public Mazo()
     {
         mazo = new ArrayList<Carta>();
-        Palo palo = null;
-        
+        Palo palo = null;        
         for (Palo paloActual: Palo.values()) {
             palo = paloActual;
             for (int valorActual = 1; valorActual <= 12; valorActual++) {
@@ -29,7 +26,6 @@ public class Mazo
                 }
             }          
         }
-
     }
 
     public void verCartasDelMazo()
@@ -50,8 +46,7 @@ public class Mazo
         }
 
     }
-    
-    
+       
     public Carta sacarCarta()
     {        
         Carta cartaADevolver = null;
@@ -60,7 +55,6 @@ public class Mazo
         }
         return cartaADevolver;
     }
-
 }
 
 

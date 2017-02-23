@@ -29,30 +29,24 @@ public class Baza
     {        
         cartasDeLaBaza[cartasEnLaBaza] = cartaTirada;
         cartasEnLaBaza++;
-
-
-            if (cartasEnLaBaza == 1) {
+        if (cartasEnLaBaza == 1) {
+            cartaQueVaGanando = cartaTirada;
+            nombreJugadorQueVaGanando = nombreJugador;
+        }
+        else {
+            if (cartaTirada.ganaA(cartaQueVaGanando, paloQuePinta)) {
                 cartaQueVaGanando = cartaTirada;
                 nombreJugadorQueVaGanando = nombreJugador;
             }
-            else {
-                if (cartaTirada.ganaA(cartaQueVaGanando, paloQuePinta)) {
-                    cartaQueVaGanando = cartaTirada;
-                    nombreJugadorQueVaGanando = nombreJugador;
-                }
-            }
-
-
+        }
     }
-
+    
     public Palo getPaloPrimeraCartaDeLaBaza()
     {
         Palo paloPrimeraCarta = null;
-
         if (cartasEnLaBaza != 0) {
             paloPrimeraCarta = cartasDeLaBaza[0].getPalo();
         }
-
         return paloPrimeraCarta;
     }
 
@@ -66,12 +60,7 @@ public class Baza
         return nombreJugadorQueVaGanando;
     }
 
-
 }
-
-
-
-
 
 
 
