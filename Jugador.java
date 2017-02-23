@@ -13,7 +13,7 @@ public class Jugador
     private int numeroCartasEnLaMano;
     private ArrayList<Baza> bazasGanadas;
 
-    // private Carta cartaQueVamosAJugar;//almacena la carta que va ganando en el mt jugarCartaInteligentemente()
+    private Carta cartaQueVamosAJugar;//almacena la carta que va ganando en el mt jugarCartaInteligentemente()
 
     /**
      * Constructor for objects of class Jugador
@@ -25,7 +25,7 @@ public class Jugador
         numeroCartasEnLaMano = 0;   
         bazasGanadas = new ArrayList<Baza>();
 
-        // cartaQueVamosAJugar = null;
+        cartaQueVamosAJugar = null;
     }
 
     /**
@@ -46,7 +46,17 @@ public class Jugador
     {
         for (Carta cartaActual : cartasQueTieneEnLaMano) {
             if (cartaActual != null) {
-                System.out.println(cartaActual);
+                System.out.println(cartaActual+ ", ");
+            }
+        }
+    }
+
+    public void verCartasJugadorConPrint()
+    {
+        // System.out.println("Cartas de " +name);
+        for (Carta cartaActual : cartasQueTieneEnLaMano) {
+            if (cartaActual != null) {
+                System.out.print(cartaActual+ ", ");
             }
         }
     }
@@ -56,7 +66,7 @@ public class Jugador
      */
     public String getNombre()
     {
-        return nombre;
+        return " " +nombre+ "; ";
     }
 
     /**
@@ -66,9 +76,7 @@ public class Jugador
     public Carta tirarCarta(String nombreCarta)
     {
         Carta cartaTirada = null;
-
         if (numeroCartasEnLaMano > 0) {
-
             int cartaActual = 0;
             boolean buscando = true;
             while (cartaActual < cartasQueTieneEnLaMano.length && buscando) {
@@ -83,7 +91,6 @@ public class Jugador
                 }
                 cartaActual++;
             }
-
         }
         return cartaTirada;
     }
@@ -120,43 +127,77 @@ public class Jugador
      * 
      * *********************************************************************************************************************
      */
+
     public Carta tirarCartaInteligentemente(Palo paloPrimeraCartaDeLaBaza, Carta cartaQueVaGanando, Palo paloQuePinta)                                    
     {
-        //la carta que empieza ganando la baza es la 1º en jugarse. la que se pasa en el parámetro.(la juega el humano.)
-        // guardo su palo y su valor en dos VL.
-        int valorPrimerCarta = cartaQueVaGanando.getValor();
-        Palo paloPrimerCarta = cartaQueVaGanando.getPalo();
-        Carta cartaQueVamosAJugar = null;//almacena la carta que va ganando.
-        //Cartas que tiene el jugador en la mano. 
-        int cont = 0;
-        boolean encontrado = false;
-        int auxiliar = 0; // ----- si cambia el valor a 777 es porque la carta que va ganando ya no es la pasada por parámetro.
-        while(cont < cartasQueTieneEnLaMano.length && !encontrado){//recorre la colección de cartas para jugar una que gane si puede ser.
-            
-            if(cartasQueTieneEnLaMano[cont] != null){
-                if(cartaQueVaGanando != null && cartasQueTieneEnLaMano[cont].ganaA(cartaQueVaGanando, paloQuePinta)){
-                    cartaQueVamosAJugar = cartasQueTieneEnLaMano[cont];
-                    System.out.println(" cartas de.-===================== " +nombre );//+ " " +cartasQueTieneEnLaMano[i]
-                    for(int i = 0; i < 5; i ++){
-                        System.out.println(cartasQueTieneEnLaMano[i]);
-                    } 
-                    System.out.println("=============================" +nombre+ " ha jugados.- " +cartaQueVamosAJugar.toString() );
-                    System.out.println("");
-                    encontrado = true;
+        // ---- EL PARÁMETRO cartaQueVaGanando, ES LA 1º CARTA EN JUGARSE Y LA 1º QUE VA GANANDO.
+        //Carta cartaQueVamosAJugar = null;//ES LA CARTA QUE SE TIRA.
+        int iteracionesTotales = cartasQueTieneEnLaMano.length;
+        //-------------------BUCLE PARA RECORRER TODAS LAS CARTAS QUE TIENE EL JUGADOR----------------
 
-                    auxiliar = 777;// la carta que va ganando ya no es la pasada por parámetro.
+        boolean encontrada = false;//--- para, el bucle while si encuentra la carta.
+        int cuentaCartas = 0;//--cuenta las cartas del jugadorNoH
+
+        //------ RECORRO LAS CARTAS QUE TIENE EL JUGADOR noHumano Y TIRO LA úlima QUE LA SUPERE EN VALOR---------
+        while(cuentaCartas <  iteracionesTotales && !encontrada){
+            for(Carta cartaG: cartasQueTieneEnLaMano){
+                if(cartaG != null && cartaG.getPalo() == paloPrimeraCartaDeLaBaza && cartaG.getValor()
+                > cartaQueVaGanando.getValor()){
+                    cartaQueVamosAJugar = cartaG;
+                    encontrada = true;                            
                 }
-                else{
-                    cartaQueVamosAJugar = cartasQueTieneEnLaMano[cont]; 
-                    encontrado = true;
-                }
-               
             }
-             cartasQueTieneEnLaMano[cont] = null;
-            cont ++;
+
+            // 2º ---- SI EL noHumano TIENE CARTAS PARA ASISTIR AL PALO DE LA 1º CARTA JUGADA POR EL humano, Y NO LA GANA¡¡¡¡¡.
+            if(!encontrada){                         
+                for(Carta cartaG: cartasQueTieneEnLaMano){
+                    if(cartaG != null && cartaG.getPalo() == paloPrimeraCartaDeLaBaza && cartaG.getValor()
+                    < cartaQueVaGanando.getValor()){
+                        cartaQueVamosAJugar = cartaG;
+                        encontrada = true;                               
+                    }
+                }
+            }
+
+            // 3º--------- SI EL noHumano ¡¡¡NO TIENE CARTAS PARA ASISTIR AL PALO DE LA 1º CARTA, Y ÉSTA NO ES TRIUNFO.(y el nHum tiene triunfo)
+            if(!encontrada){
+                for(Carta cartaG: cartasQueTieneEnLaMano){
+                    if(cartaG != null &&  cartaG.getPalo() != paloPrimeraCartaDeLaBaza && paloPrimeraCartaDeLaBaza != paloQuePinta){
+                        if(cartaG.getPalo() ==  paloQuePinta){
+                            cartaQueVamosAJugar = cartaG;
+                            encontrada = true;                            
+                        }  
+                    }
+                }
+
+                // 4º---------- SI EL noHumano ¡¡¡NO TIENE CARTAS PARA ASISTIR AL PALO DE LA 1º CARTA Y ÉSTA ES TRIUNFO. 
+                if(!encontrada){
+                    for(Carta cartaG: cartasQueTieneEnLaMano){
+                        if(cartaG != null &&  cartaG.getPalo() != paloPrimeraCartaDeLaBaza && paloPrimeraCartaDeLaBaza == paloQuePinta){
+
+                            if(cartaG.getPalo() !=  paloQuePinta){
+                                cartaQueVamosAJugar = cartaG;
+                                encontrada = true;                              
+                            }
+
+                        }
+                    }  
+                }
+            }
+            cuentaCartas ++;
         }
-        //return tirarCartaAleatoria();  
-        return cartaQueVamosAJugar;  
+
+        int anularElemento = 0;
+        String anularCarta = cartaQueVamosAJugar.toString();
+        for(int pi = 0; pi < cartasQueTieneEnLaMano.length; pi++){
+            if(cartasQueTieneEnLaMano[pi] != null && cartasQueTieneEnLaMano[pi].toString().equals(anularCarta)){
+                anularElemento = pi;
+            }
+        }
+        cartasQueTieneEnLaMano[anularElemento] = null;
+
+        System.out.println(nombre+ " juega el " +cartaQueVamosAJugar.toString());
+        return cartaQueVamosAJugar;
     }
 
     /**
@@ -176,5 +217,17 @@ public class Jugador
         return bazasGanadas.size();
     }
 
+    public void muestraArrayCartasQueTieneEnLaMano(){
+        for(int i = 0; i < cartasQueTieneEnLaMano.length; i++){
+            System.out.println(cartasQueTieneEnLaMano[i]);
+        }
+    }
+
+    public void zzzEliminaUnElemento(int num){
+        int cartaAJugar = cartasQueTieneEnLaMano.length - num;
+        if(cartasQueTieneEnLaMano[cartaAJugar] != null){
+            cartasQueTieneEnLaMano[cartaAJugar] = null;
+        }
+    }
 }
 

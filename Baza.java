@@ -24,55 +24,50 @@ public class Baza
         nombreJugadorQueVaGanando = null;
         this.paloQuePinta = paloQuePinta;
     }
-    
+
     public void addCarta(Carta cartaTirada, String nombreJugador)
     {        
         cartasDeLaBaza[cartasEnLaBaza] = cartaTirada;
         cartasEnLaBaza++;
-        if (cartasEnLaBaza == 1) {
-            cartaQueVaGanando = cartaTirada;
-            nombreJugadorQueVaGanando = nombreJugador;
-        }
-        else {
-            if (cartaTirada.ganaA(cartaQueVaGanando, paloQuePinta)) {
+
+
+            if (cartasEnLaBaza == 1) {
                 cartaQueVaGanando = cartaTirada;
                 nombreJugadorQueVaGanando = nombreJugador;
             }
-        }
+            else {
+                if (cartaTirada.ganaA(cartaQueVaGanando, paloQuePinta)) {
+                    cartaQueVaGanando = cartaTirada;
+                    nombreJugadorQueVaGanando = nombreJugador;
+                }
+            }
+
 
     }
-    
+
     public Palo getPaloPrimeraCartaDeLaBaza()
     {
         Palo paloPrimeraCarta = null;
-        
+
         if (cartasEnLaBaza != 0) {
             paloPrimeraCarta = cartasDeLaBaza[0].getPalo();
         }
-        
+
         return paloPrimeraCarta;
     }
-    
+
     public Carta cartaQueVaGanandoLaBaza() 
     {
         return cartaQueVaGanando;
     }
-    
+
     public String nombreJugadorQueVaGanandoLaBaza()
     {
         return nombreJugadorQueVaGanando;
     }
-    
-    
+
 
 }
-
-
-
-
-
-
-
 
 
 

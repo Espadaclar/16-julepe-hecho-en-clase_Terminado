@@ -94,6 +94,30 @@ public class Carta
 
         return gana;
     }
+    
+    public Carta ganaA7(Carta cartaACompararPreviamenteTirada, Palo paloQuePinta)
+    {
+        boolean gana = false;
+        Carta deFuera = cartaACompararPreviamenteTirada;
+        Carta deCasa = new Carta(valor, palo);
+        
+        if (palo == cartaACompararPreviamenteTirada.getPalo()) {
+            // En caso de que tengan el mismo palo...
+            if (getPosicionEscalaTute() > cartaACompararPreviamenteTirada.getPosicionEscalaTute()) {
+                gana = true;
+                deFuera = deCasa;
+            }
+        }
+        else {
+            // En caso de que tengan distinto palo...
+            if (palo == paloQuePinta) {
+                gana = true;
+                deFuera = deCasa;
+            }
+        } 
+
+        return deFuera;
+    }
 
     public int getPosicionEscalaTute() 
     {
